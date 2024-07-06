@@ -16,6 +16,6 @@ public class User {
     private String surname;
     private String username;
     private String password;
-    private Double balance;
+    private Double balance = 0D;
     private Role role;
 }

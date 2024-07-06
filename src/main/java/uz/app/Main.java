@@ -1,5 +1,7 @@
 package uz.app;
 
+import uz.app.service.AuthService;
+
 import java.util.Scanner;
 
 public class Main {
@@ -13,8 +15,8 @@ public class Main {
             String command = scanStr.nextLine();
 
             switch (command) {
-                case "1" -> signUp();
-                case "2" -> signIn();
+                case "1" -> AuthService.signUp();
+                // case "2" -> signIn();
                 case "0" -> {
                     System.out.println("Bye, bye!");
                     return;

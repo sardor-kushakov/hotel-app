@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "id": "9e065c6c-5187-404e-bc42-8e181644d89e",
+    "name": "admin",
+    "surname": "admin",
+    "username": "admin",
+    "password": "123",
+    "balance": 0.0,
+    "role": "ADMIN"
+  },
+  {
+    "id": "2c6b49fa-f606-43e6-8bd0-ed278fe10e9b",
+    "name": "qw",
+    "surname": "qw",
+    "username": "qw",
+    "password": "qw",
+    "balance": 0.0
+  }
+]
