@@ -42,6 +42,7 @@ public class AuthService {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 Context.setUser(user);
                 if (user.getRole().equals("admin")) {
+
                     adminService.service();
                 } else {
                     userService.service();
@@ -51,4 +52,8 @@ public class AuthService {
         }
         System.out.println("user not found!");
     }*/
+
+    public void checkUsername(String username){
+
+    }
 }
