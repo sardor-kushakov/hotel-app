@@ -17,12 +17,13 @@ import java.util.List;
 public class Database {
     public static ArrayList<User> userList = new ArrayList<>();
     public static ArrayList<Booking> bookingList = new ArrayList<>();
-    public static ArrayList<Hotel> hotels = new ArrayList<>();
+    public static ArrayList<Hotel> hotelList = new ArrayList<>();
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private static final File usersFile = new File("src/main/resources/users.json");
-    private final File bookingsFile = new File("src/main/resources/bookings.json");
+    private static final File bookingsFile = new File("src/main/resources/bookings.json");
+    private static final File hotelsFile = new File("src/main/resources/hotels.json");
 
     private static Database database;
 
@@ -68,7 +69,25 @@ public class Database {
         }
     }
 
+    public static void addHotel(Hotel hotel) {
+        hotelList.add(hotel);
+        try {
+            @Cleanup BufferedWriter writer = new BufferedWriter(new FileWriter(hotelsFile));
+            writer.write(gson.toJson(hotelList));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<User> getUsers() {
         return userList;
+    }
+
+    public List<Hotel> getHotels() {
+        return hotelList;
+    }
+
+    public List<Booking> getBookings() {
+        return bookingList;
     }
 }

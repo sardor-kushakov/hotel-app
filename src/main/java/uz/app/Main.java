@@ -2,12 +2,9 @@ package uz.app;
 
 import uz.app.service.AuthService;
 
-import java.util.Scanner;
+import static uz.app.util.Utils.scanStr;
 
 public class Main {
-
-    public static Scanner scanNum = new Scanner(System.in);
-    public static Scanner scanStr = new Scanner(System.in);
 
     public static void main(String[] args) {
         while (true) {
@@ -16,7 +13,7 @@ public class Main {
 
             switch (command) {
                 case "1" -> AuthService.signUp();
-                // case "2" -> signIn();
+                case "2" -> AuthService.signIn();
                 case "0" -> {
                     System.out.println("Bye, bye!");
                     return;

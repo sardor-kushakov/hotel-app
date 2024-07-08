@@ -2,14 +2,16 @@ package uz.app.service;
 
 import uz.app.db.Database;
 import uz.app.entity.User;
+import uz.app.enums.Role;
 
-import static uz.app.Main.scanStr;
+import static uz.app.util.Utils.scanStr;
+import static uz.app.util.Utils.setUser;
 
 public class AuthService {
     static Database database = Database.getInstance();
 
-    // AdminService adminService = AdminService.getInstance();
-    // UserService userService = UserService.getInstance();
+    AdminService adminService = AdminService.getInstance();
+    UserService userService = UserService.getInstance();
 
 
     public static void signUp() {
@@ -29,31 +31,37 @@ public class AuthService {
         user.setPassword(scanStr.nextLine());
 
         database.addUser(user);
+
     }
 
-    /*public void signIn() {
+    // sign in:
+    public static void signIn() {
         System.out.print("Enter username: ");
         String username = scanStr.nextLine();
 
         System.out.print("Enter password: ");
         String password = scanStr.nextLine();
 
+        boolean isAuthenticated = false;
+
         for (User user : database.getUsers()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                Context.setUser(user);
-                if (user.getRole().equals("admin")) {
-
-                    adminService.service();
+                isAuthenticated = true;
+                if (user.getRole() == Role.ADMIN) {
+                    setUser(user);
+                    System.out.println("Logged in as admin.");
+                    AdminService.adminMenu();
                 } else {
-                    userService.service();
+                    setUser(user);
+                    System.out.println("Logged in as user.");
+                    UserService.userMenu();
                 }
-                return;
+                break;
             }
         }
-        System.out.println("user not found!");
-    }*/
 
-    public void checkUsername(String username){
-
+        if (!isAuthenticated) {
+            System.out.println("Username or password incorrect!");
+        }
     }
 }

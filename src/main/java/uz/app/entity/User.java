@@ -5,11 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.app.enums.Role;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class User {
     private final String id = UUID.randomUUID().toString();
     private String name;
@@ -18,4 +21,5 @@ public class User {
     private String password;
     private Double balance = 0D;
     private Role role;
+    private final Timestamp createdAt = new Timestamp(System.currentTimeMillis());
 }
