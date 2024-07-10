@@ -30,7 +30,7 @@ public class AdminService {
     }
 
     // admin menu:
-    public static void adminMenu() {
+    public void adminMenu() {
 
         while (true) {
             System.out.println("1. Hotel  2. Show Rooms  3. Booking  4. History  0. Exit");

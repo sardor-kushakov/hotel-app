@@ -20,7 +20,7 @@ public class UserService {
 
 
     // user main menus:
-    public static void userMenu() {
+    public void userMenu() {
 
         while (true) {
             System.out.println("1. Booking  2. Profile  0. Exit");
@@ -89,11 +89,6 @@ public class UserService {
 
         System.out.print("Choice one: ");
         int choice = 0;
-        try {
-            choice = 0;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
         try {
             choice = scanNum.nextInt() - 1;

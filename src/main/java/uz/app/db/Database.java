@@ -91,7 +91,7 @@ public class Database {
         }
     }
 
-    public List<User> getUsers() {
+    public static List<User> getUsers() {
         return userList;
     }
 

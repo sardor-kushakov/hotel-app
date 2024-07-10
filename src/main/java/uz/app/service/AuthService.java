@@ -4,17 +4,13 @@ import uz.app.db.Database;
 import uz.app.entity.User;
 import uz.app.enums.Role;
 
-import java.util.Optional;
-
-import static uz.app.util.Utils.scanStr;
-import static uz.app.util.Utils.setUser;
+import static uz.app.util.Utils.*;
 
 public class AuthService {
     static Database database = Database.getInstance();
 
-    AdminService adminService = AdminService.getInstance();
-    UserService userService = UserService.getInstance();
-
+    static AdminService adminService = AdminService.getInstance();
+    static UserService userService = UserService.getInstance();
 
     public static void signUp() {
         User user = new User();
@@ -25,15 +21,29 @@ public class AuthService {
         System.out.print("Enter surname: ");
         user.setSurname(scanStr.nextLine());
 
-        // username check method:
         System.out.print("Enter username: ");
-        user.setUsername(scanStr.nextLine());
+        String username = scanStr.nextLine();
+
+        while (isUsernameTaken(username)) {
+            System.out.print("This username is already taken!\nPlease enter a different username: ");
+            username = scanStr.nextLine();
+        }
+        user.setUsername(username);
 
         System.out.print("Enter password: ");
         user.setPassword(scanStr.nextLine());
 
         database.addUser(user);
+    }
 
+    // check username:
+    private static boolean isUsernameTaken(String username) {
+        for (User user : database.getUsers()) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // sign in:
@@ -44,27 +54,23 @@ public class AuthService {
         System.out.print("Enter password: ");
         String password = scanStr.nextLine();
 
-        Optional<User> userOptional = database.getUsers()
-                .stream().filter(user -> user.getUsername() != null && user.getPassword() != null && (user.getUsername()
-                        .equals(username) && user.getPassword()
-                        .equals(password))).findFirst();
-
-        if (userOptional.isPresent()) {
-
-            User user = userOptional.get();
-
-            if (user.getRole() == Role.ADMIN) {
+        for (User user : database.getUsers()) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 setUser(user);
-                System.out.println("Logged in as admin.");
-                AdminService.adminMenu();
-            } else {
-                setUser(user);
-                System.out.println("Logged in as user.");
-                UserService.userMenu();
+                getCurrentUser().setRole(Role.USER);
+                if (user.getRole() == null) {
+                    System.out.println("User role is not set!");
+                    return;
+                }
+
+                if (user.getRole().equals(Role.ADMIN)) {
+                    adminService.adminMenu();
+                } else {
+                    userService.userMenu();
+                }
+                return;
             }
-
-        } else {
-            System.out.println("User not found!");
         }
+        System.out.println("User not found!");
     }
 }
