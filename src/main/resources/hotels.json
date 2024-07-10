@@ -1,8 +1,14 @@
 [
   {
-    "id": "51c1daef-d9ca-4b6e-bbf5-2f45b5e411ca",
+    "id": "b00374dc-ac94-4d9e-be62-039d8e58c2f2",
     "name": "Hilton",
-    "floor": 30,
-    "rooms": 450
+    "floor": 25,
+    "rooms": 400
+  },
+  {
+    "id": "33681b28-8911-4b43-a0c5-5c421ba17f7e",
+    "name": "War",
+    "floor": 133,
+    "rooms": 2000
   }
 ]

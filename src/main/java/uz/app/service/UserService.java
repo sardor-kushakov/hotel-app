@@ -7,7 +7,7 @@ import uz.app.entity.User;
 import static uz.app.util.Utils.*;
 
 public class UserService {
-    Database database = Database.getInstance();
+    private static Database database = Database.getInstance();
 
     private static UserService userService;
 
@@ -83,12 +83,17 @@ public class UserService {
     private static void newBooking() {
         int count = 1;
 
-        for (Hotel hotel : Database.hotelList) {
+        for (Hotel hotel : Database.getInstance().getHotels()) {
             System.out.println(count++ + ". " + hotel.getName());
         }
 
         System.out.print("Choice one: ");
         int choice = 0;
+        try {
+            choice = 0;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         try {
             choice = scanNum.nextInt() - 1;
@@ -129,7 +134,7 @@ public class UserService {
 
     // user balance:
     private static void balance() {
-        System.out.println("Your balance: " + getCurrentUser().getBalance());
+        System.out.println("Your balance: " + getCurrentUser().getBalance() + "$");
 
         while (true) {
             System.out.println("1. Fill balance  0. Back");
@@ -196,20 +201,30 @@ public class UserService {
         System.out.print("Enter surname: ");
         getCurrentUser().setSurname(scanStr.nextLine());
 
-        System.out.print("Enter username: ");
-        String username = scanStr.nextLine();
+        boolean validUsername = false;
 
-        for (User user : Database.userList) {
-            if (!username.equals(user.getUsername())) {
+        while (!validUsername) {
+            System.out.print("Enter username: ");
+            String username = scanStr.nextLine();
+
+            validUsername = true;
+
+            for (User user : Database.userList) {
+                if (!getCurrentUser().getUsername().equals(username) && username.equals(user.getUsername())) {
+                    System.out.println("Username already exists! Please enter a different username.");
+                    validUsername = false;
+                    break;
+                }
+            }
+
+            if (validUsername) {
+                getCurrentUser().setUsername(username);
                 System.out.print("Enter password: ");
                 getCurrentUser().setPassword(scanStr.nextLine());
-                break;
-            } else {
-                System.out.println("Username already exists!");
-                return;
             }
         }
 
-        System.out.println("Information updated successfully!");
+        database.saveUsersToJson();
+        System.out.println("Successfully updated!");
     }
 }

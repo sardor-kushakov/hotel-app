@@ -11,5 +11,5 @@ import uz.app.enums.RoomType;
 public class Room {
     private Integer roomNumber;
     private RoomType type;
-    private boolean isAvailable;
+    private boolean available;
 }

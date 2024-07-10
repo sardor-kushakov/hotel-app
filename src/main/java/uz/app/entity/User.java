@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import uz.app.enums.Role;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -21,5 +20,13 @@ public class User {
     private String password;
     private Double balance = 0D;
     private Role role;
+    private Boolean temporary;
     private final Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+
+    public User(String name, String surname, Role role, Boolean temporary) {
+        this.name = name;
+        this.surname = surname;
+        this.role = role;
+        this.temporary = temporary;
+    }
 }

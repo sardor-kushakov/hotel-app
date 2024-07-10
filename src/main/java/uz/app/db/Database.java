@@ -1,5 +1,6 @@
 package uz.app.db;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +21,9 @@ public class Database {
     public static ArrayList<Hotel> hotelList = new ArrayList<>();
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final String JSON_FILE = "src/main/resources/users.json";
 
     private static final File usersFile = new File("src/main/resources/users.json");
     private static final File bookingsFile = new File("src/main/resources/bookings.json");
@@ -46,7 +50,15 @@ public class Database {
 
     static {
         database = new Database();
-        database.addUser(new User("admin", "admin", "admin", "123", 0D, Role.ADMIN));
+        database.addUser(new User("admin", "admin", "admin", "123", 0D, Role.ADMIN, false));
+    }
+
+    public void saveUsersToJson() {
+        try {
+            objectMapper.writeValue(new File(JSON_FILE), userList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void addUser(User user) {
@@ -59,7 +71,7 @@ public class Database {
         }
     }
 
-    public void addBooking(Booking booking) {
+    public static void addBooking(Booking booking) {
         bookingList.add(booking);
         try {
             @Cleanup BufferedWriter writer = new BufferedWriter(new FileWriter(bookingsFile));

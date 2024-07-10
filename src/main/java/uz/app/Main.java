@@ -6,7 +6,7 @@ import static uz.app.util.Utils.scanStr;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         while (true) {
             System.out.println("1. Sign Up  2. Sign In  0. Exit");
             String command = scanStr.nextLine();

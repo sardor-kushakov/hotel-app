@@ -4,6 +4,8 @@ import uz.app.db.Database;
 import uz.app.entity.User;
 import uz.app.enums.Role;
 
+import java.util.Optional;
+
 import static uz.app.util.Utils.scanStr;
 import static uz.app.util.Utils.setUser;
 
@@ -42,26 +44,27 @@ public class AuthService {
         System.out.print("Enter password: ");
         String password = scanStr.nextLine();
 
-        boolean isAuthenticated = false;
+        Optional<User> userOptional = database.getUsers()
+                .stream().filter(user -> user.getUsername() != null && user.getPassword() != null && (user.getUsername()
+                        .equals(username) && user.getPassword()
+                        .equals(password))).findFirst();
 
-        for (User user : database.getUsers()) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                isAuthenticated = true;
-                if (user.getRole() == Role.ADMIN) {
-                    setUser(user);
-                    System.out.println("Logged in as admin.");
-                    AdminService.adminMenu();
-                } else {
-                    setUser(user);
-                    System.out.println("Logged in as user.");
-                    UserService.userMenu();
-                }
-                break;
+        if (userOptional.isPresent()) {
+
+            User user = userOptional.get();
+
+            if (user.getRole() == Role.ADMIN) {
+                setUser(user);
+                System.out.println("Logged in as admin.");
+                AdminService.adminMenu();
+            } else {
+                setUser(user);
+                System.out.println("Logged in as user.");
+                UserService.userMenu();
             }
-        }
 
-        if (!isAuthenticated) {
-            System.out.println("Username or password incorrect!");
+        } else {
+            System.out.println("User not found!");
         }
     }
 }
