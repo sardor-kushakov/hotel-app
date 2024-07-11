@@ -5,10 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import lombok.Cleanup;
-import uz.app.entity.Booking;
-import uz.app.entity.History;
-import uz.app.entity.Hotel;
-import uz.app.entity.User;
+import uz.app.entity.*;
 import uz.app.enums.Role;
 
 import java.io.*;
@@ -21,6 +18,7 @@ public class Database {
     public static ArrayList<Booking> bookingList = new ArrayList<>();
     public static ArrayList<Hotel> hotelList = new ArrayList<>();
     public static ArrayList<History> historyList = new ArrayList<>();
+    public static ArrayList<Room> roomList = new ArrayList<>();
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -31,6 +29,7 @@ public class Database {
     private static final File bookingsFile = new File("src/main/resources/bookings.json");
     private static final File hotelsFile = new File("src/main/resources/hotels.json");
     private static final File historiesFile = new File("src/main/resources/histories.json");
+    private static final File roomsFile = new File("src/main/resources/histories.json");
 
     private static Database database;
 
@@ -111,6 +110,17 @@ public class Database {
         }
     }
 
+    // add room:
+    public static void addRoom(Room room) {
+        roomList.add(room);
+        try {
+            @Cleanup BufferedWriter writer = new BufferedWriter(new FileWriter(roomsFile));
+            writer.write(gson.toJson(roomList));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // all users:
     public static List<User> getUsers() {
         return userList;
@@ -150,5 +160,17 @@ public class Database {
             throw new RuntimeException(e);
         }
         return historyList;
+    }
+
+    // get rooms:
+    public ArrayList<Room> getRooms() {
+        Type type = new TypeToken<ArrayList<Room>>() {
+        }.getType();
+        try {
+            roomList = gson.fromJson(new FileReader(roomsFile), type);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return roomList;
     }
 }

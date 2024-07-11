@@ -3,6 +3,7 @@ package uz.app.service;
 import uz.app.db.Database;
 import uz.app.entity.Booking;
 import uz.app.entity.Hotel;
+import uz.app.entity.Room;
 import uz.app.entity.User;
 
 import java.util.List;
@@ -148,7 +149,7 @@ public class UserService {
         }
 
         System.out.print("Choice one: ");
-        int choice = 0;
+        int choice = 1;
 
         try {
             choice = scanNum.nextInt() - 1;
@@ -158,10 +159,22 @@ public class UserService {
 
         System.out.println("«" + Database.hotelList.get(choice).getName() + "» selected ✅");
 
+        System.out.print("Enter floor: ");
+        Integer floorInput = scanNum.nextInt();
+
+        System.out.print("Enter room: ");
+        Integer roomInput = scanNum.nextInt();
+
+        for (Room room : database.getRooms()) {
+            if (!room.isAvailable()) {
+
+            }
+        }
+
         System.out.println("Enter the start date: ");
-
+        // 07-07-2024
         System.out.println("Enter the end date: ");
-
+        // 10-07-2024
     }
 
     // user's profile:

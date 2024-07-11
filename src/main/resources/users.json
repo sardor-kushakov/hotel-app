@@ -6,7 +6,7 @@
     "username": "admin",
     "password": "123",
     "balance": 0.0,
-    "role": "ADMIN",
+    "role": "USER",
     "temporary": false,
     "createdAt": "Jul 11, 2024, 12:26:54 PM"
   },
@@ -29,5 +29,25 @@
     "role": "ADMIN",
     "temporary": false,
     "createdAt": "Jul 11, 2024, 2:57:07 PM"
+  },
+  {
+    "id": "c52c9cfe-46d3-49d2-83eb-40f7b76a7622",
+    "name": "admin",
+    "surname": "admin",
+    "username": "admin",
+    "password": "123",
+    "balance": 0.0,
+    "role": "ADMIN",
+    "temporary": false,
+    "createdAt": "Jul 11, 2024, 11:22:24 PM"
+  },
+  {
+    "id": "f23c4798-f57e-4b8e-9fbb-92cb7c478793",
+    "name": "q",
+    "surname": "q",
+    "balance": 0.0,
+    "role": "GUEST",
+    "temporary": true,
+    "createdAt": "Jul 11, 2024, 11:23:32 PM"
   }
 ]
