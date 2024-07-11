@@ -1,8 +1,11 @@
 package uz.app.service;
 
 import uz.app.db.Database;
+import uz.app.entity.Booking;
 import uz.app.entity.Hotel;
 import uz.app.entity.User;
+
+import java.util.List;
 
 import static uz.app.util.Utils.*;
 
@@ -55,10 +58,10 @@ public class UserService {
                     newBooking();
                 }
                 case "2" -> {
-                    activeBooking();
+//                    activeBooking();
                 }
                 case "3" -> {
-                    myBooking();
+//                    myBooking();
                 }
                 case "0" -> {
                     return;
@@ -71,19 +74,76 @@ public class UserService {
     }
 
     // user's all bookings:
-    private static void myBooking() {
-    }
+//    private static void myBooking() {
+//        User currentUser = getCurrentUser();
+//
+//        if (currentUser == null) {
+//            System.out.println("User not logged in.");
+//            return;
+//        }
+//
+//        List<Booking> bookings = database.getBookings();
+//
+//        if (bookings.isEmpty()) {
+//            System.out.println("No bookings found for user: " + currentUser.getUsername());
+//            return;
+//        }
+//
+//        System.out.println("All bookings for user " + currentUser.getUsername() + ":");
+//        for (Booking booking : bookings) {
+//            if (booking.getUser().equals(currentUser)) {
+//                System.out.println("Booking ID: " + booking.getId());
+//                System.out.println("Hotel: " + booking.getRoom().getHotel().getName());
+//                System.out.println("Room Number: " + booking.getRoom().getRoomNumber());
+//                System.out.println("Booking Period: " + booking.getStartDate() + " to " + booking.getEndDate());
+//                System.out.println("-----------------------------------------");
+//            }
+//        }
+//
+//
+//    }
 
     // user's active bookings:
-    private static void activeBooking() {
-
-    }
+//    private static void activeBooking() {
+//        User currentUser = getCurrentUser();
+//
+//        if (currentUser == null) {
+//            System.out.println("User not found!!!!");
+//            return;
+//        }
+//
+//        List<Booking> bookings = database.getBookings();
+//
+//        if (bookings.isEmpty()) {
+//            System.out.println("No bookings found.");
+//            return;
+//        }
+//
+//        System.out.println("Your active Bookings:");
+//
+//        boolean foundActiveBooking = false;
+//
+//        for (Booking booking : bookings) {
+//            if (booking.getUser().equals(currentUser) && booking.isActive()) {
+//                System.out.println("Booking ID: " + booking.getId());
+//                System.out.println("Hotel: " + booking.getRoom().getHotel().getName());
+//                System.out.println("Room Number: " + booking.getRoom().getRoomNumber());
+//                System.out.println("Booking Period: " + booking.getStartDate() + " to " + booking.getEndDate());
+//                System.out.println("-----------------------------------------");
+//                foundActiveBooking = true;
+//            }
+//        }
+//
+//        if (!foundActiveBooking) {
+//            System.out.println("No active bookings found for user: " + currentUser.getUsername());
+//        }
+//    }
 
     // new booking:
     private static void newBooking() {
         int count = 1;
 
-        for (Hotel hotel : Database.getInstance().getHotels()) {
+        for (Hotel hotel : Database.getHotels()) {
             System.out.println(count++ + ". " + hotel.getName());
         }
 

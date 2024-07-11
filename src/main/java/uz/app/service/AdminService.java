@@ -2,6 +2,7 @@ package uz.app.service;
 
 import uz.app.db.Database;
 import uz.app.entity.Booking;
+import uz.app.entity.History;
 import uz.app.entity.Hotel;
 import uz.app.entity.User;
 import uz.app.enums.Role;
@@ -15,6 +16,10 @@ import static uz.app.util.Utils.scanNum;
 import static uz.app.util.Utils.scanStr;
 
 public class AdminService {
+
+    // database get instance:
+    private static Database database = Database.getInstance();
+
     // for choice:
     static int choice = 0;
 
@@ -91,6 +96,10 @@ public class AdminService {
 
     // history
     private static void history() {
+        int count = 1;
+        for (History history : database.getHistories()) {
+            System.out.println(count++ + ". " + history);
+        }
     }
 
     // admin booking menu:
@@ -138,7 +147,7 @@ public class AdminService {
     // all active bookings:
     private static void showAllActiveBookings() {
         int count = 1;
-        for (Booking booking : Database.bookingList) {
+        for (Booking booking : Database.getInstance().getBookings()) {
             if (booking.isActive()) {
                 System.out.println(count++ + ". " + booking);
             }
@@ -148,7 +157,7 @@ public class AdminService {
     // all bookings:
     private static void showAllBookings() {
         int count = 1;
-        for (Booking booking : Database.bookingList) {
+        for (Booking booking : Database.getInstance().getBookings()) {
             if (!booking.isTemporary()) {
                 System.out.println(count++ + ". " + booking);
             }

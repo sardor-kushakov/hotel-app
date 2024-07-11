@@ -25,7 +25,7 @@ public class AuthService {
         String username = scanStr.nextLine();
 
         while (isUsernameTaken(username)) {
-            System.out.print("This username is already taken!\nPlease enter a different username: ");
+            System.out.print("This us rname is already taken!\nPlease enter a different username: ");
             username = scanStr.nextLine();
         }
         user.setUsername(username);
@@ -57,13 +57,10 @@ public class AuthService {
         for (User user : database.getUsers()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 setUser(user);
-                getCurrentUser().setRole(Role.USER);
-                if (user.getRole() == null) {
-                    System.out.println("User role is not set!");
-                    return;
-                }
 
-                if (user.getRole().equals(Role.ADMIN)) {
+                getCurrentUser().setRole(Role.USER);
+
+                if (user.getRole().equals(Role.USER) && user.getUsername().equals("admin")) {
                     adminService.adminMenu();
                 } else {
                     userService.userMenu();

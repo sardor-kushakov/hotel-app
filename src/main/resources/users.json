@@ -1,6 +1,6 @@
 [
   {
-    "id": "f6b2d07b-e8a5-41a9-9483-872414a9238a",
+    "id": "787352c0-e378-46a2-92b2-9ff494d139f3",
     "name": "admin",
     "surname": "admin",
     "username": "admin",
@@ -8,19 +8,19 @@
     "balance": 0.0,
     "role": "ADMIN",
     "temporary": false,
-    "createdAt": "Jul 10, 2024, 4:58:49 PM"
+    "createdAt": "Jul 11, 2024, 12:26:54 PM"
   },
   {
-    "id": "1bc9ba1d-d9e3-408f-a50e-72b0cce6f090",
-    "name": "q",
-    "surname": "1",
-    "username": "1",
-    "password": "1",
+    "id": "97e5ad0e-bf41-4bb5-b453-a02ed18bffbc",
+    "name": "rr",
+    "surname": "r",
+    "username": "rrr",
+    "password": "rrr",
     "balance": 0.0,
-    "createdAt": "Jul 10, 2024, 4:58:49 PM"
+    "createdAt": "Jul 11, 2024, 12:26:54 PM"
   },
   {
-    "id": "f19d922c-6bff-4754-b486-7e9c09ae0a77",
+    "id": "bcf009b8-4fd5-41aa-9fc5-93db60f537fe",
     "name": "admin",
     "surname": "admin",
     "username": "admin",
@@ -28,46 +28,6 @@
     "balance": 0.0,
     "role": "ADMIN",
     "temporary": false,
-    "createdAt": "Jul 10, 2024, 5:00:11 PM"
-  },
-  {
-    "id": "8a7ea75a-11ee-4768-8e3d-f2b46e197396",
-    "name": "qq",
-    "surname": "q",
-    "username": "q",
-    "password": "q",
-    "balance": 0.0,
-    "createdAt": "Jul 10, 2024, 5:00:11 PM"
-  },
-  {
-    "id": "b82e2a7e-6c87-42d7-9501-32e9c0771f4e",
-    "name": "admin",
-    "surname": "admin",
-    "username": "admin",
-    "password": "123",
-    "balance": 0.0,
-    "role": "ADMIN",
-    "temporary": false,
-    "createdAt": "Jul 10, 2024, 5:01:07 PM"
-  },
-  {
-    "id": "53d4edda-d3d6-4539-a0eb-971214eb90f5",
-    "name": "admin",
-    "surname": "admin",
-    "username": "admin",
-    "password": "123",
-    "balance": 0.0,
-    "role": "ADMIN",
-    "temporary": false,
-    "createdAt": "Jul 10, 2024, 5:01:54 PM"
-  },
-  {
-    "id": "a66416be-0a88-4a1e-9037-248ecbc049cd",
-    "name": "q",
-    "surname": "q",
-    "username": "w",
-    "password": "q",
-    "balance": 0.0,
-    "createdAt": "Jul 10, 2024, 5:01:54 PM"
+    "createdAt": "Jul 11, 2024, 2:57:07 PM"
   }
 ]

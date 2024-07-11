@@ -10,5 +10,11 @@
     "name": "War",
     "floor": 133,
     "rooms": 2000
+  },
+  {
+    "id": "7472adc6-a137-438b-b5da-d2c9a788d0c9",
+    "name": "qqq",
+    "floor": 2333,
+    "rooms": 24444
   }
 ]
