@@ -1,12 +1,8 @@
 package uz.app.service;
 
 import uz.app.db.Database;
-import uz.app.entity.Booking;
-import uz.app.entity.History;
-import uz.app.entity.Hotel;
-import uz.app.entity.User;
+import uz.app.entity.*;
 import uz.app.enums.Role;
-import uz.app.util.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -250,50 +246,55 @@ public class AdminService {
 
     // show rooms:
     private static void showRooms() {
-        while (true) {
-            System.out.println("1. Available  2. Unavailable  0. Back");
-            String command = scanStr.nextLine();
-
-            switch (command) {
-                case "1" -> {
-                    int count = 1;
-                    for (Booking booking : Database.bookingList) {
-                        if (booking.getRoom().isAvailable()) {
-                            System.out.println(count++ + ". " + booking.getRoom().getRoomNumber());
-                        }
-                    }
-                }
-                case "2" -> {
-                    int count = 1;
-                    for (Booking booking : Database.bookingList) {
-                        if (!booking.getRoom().isAvailable()) {
-                            System.out.println(count++ + ". " + booking.getRoom().getRoomNumber());
-                        }
-                    }
-                }
-                case "0" -> {
-                    return;
-                }
-                default -> {
-                    System.out.println("Command not found, please try again!");
-                }
-            }
-        }
+//        while (true) {
+//            System.out.println("1. Available  2. Unavailable  0. Back");
+//            String command = scanStr.nextLine();
+//
+//            switch (command) {
+//                case "1" -> {
+//                    int count = 1;
+//                    for (Booking booking : Database.bookingList) {
+//                        if () {
+//                            System.out.println(count++ + ". " + booking.getRoom().getRoomNumber());
+//                        }
+//                    }
+//                }
+//                case "2" -> {
+//                    int count = 1;
+//                    for (Booking booking : Database.bookingList) {
+//                        if (!booking.getRoom().isAvailable()) {
+//                            System.out.println(count++ + ". " + booking.getRoom().getRoomNumber());
+//                        }
+//                    }
+//                }
+//                case "0" -> {
+//                    return;
+//                }
+//                default -> {
+//                    System.out.println("Command not found, please try again!");
+//                }
+//            }
+//        }
     }
 
     // add new hotel:
     private static void addHotel() {
-        Hotel hotel = new Hotel();
 
         System.out.print("Enter name: ");
-        hotel.setName(Utils.scanStr.nextLine());
+        String name = scanStr.nextLine();
 
         System.out.print("Enter floor: ");
-        hotel.setFloor(Utils.scanNum.nextInt());
+        Integer floorInput = scanNum.nextInt();
 
-        System.out.print("Enter rooms: ");
-        hotel.setRooms(Utils.scanNum.nextInt());
+        System.out.print("Enter number: ");
+        Integer numberInput = scanNum.nextInt();
 
-        Database.addHotel(hotel);
+        Room room = new Room();
+        room.setFloor(floorInput);
+        room.setNumber(numberInput);
+
+        Database.addHotel(new Hotel(name, room));
+        Database.addRoom(new Room(floorInput, numberInput));
+
     }
 }

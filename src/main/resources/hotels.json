@@ -1,8 +1,10 @@
 [
   {
-    "id": "50fb6e3c-4dd8-4c32-9f53-13f95f7a2983",
-    "name": "eeee",
-    "floor": 23,
-    "rooms": 244
+    "id": "2a884bab-9972-4e07-9bba-0c34473dbde6",
+    "name": "Hilton",
+    "rooms": {
+      "floor": 35,
+      "number": 450
+    }
   }
 ]

@@ -1,11 +1,13 @@
 package uz.app.service;
 
 import uz.app.db.Database;
-import uz.app.entity.Booking;
-import uz.app.entity.Hotel;
-import uz.app.entity.Room;
-import uz.app.entity.User;
+import uz.app.entity.*;
+import uz.app.service.impl.BookingServiceImpl;
 
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static uz.app.util.Utils.*;
@@ -15,9 +17,15 @@ public class UserService {
 
     private static UserService userService;
 
+    private static BookingService bookingService;
+
+    public UserService(BookingService bookingService) {
+        this.bookingService = new BookingService(new BookingServiceImpl());
+    }
+
     public static UserService getInstance() {
         if (userService == null) {
-            userService = new UserService();
+            userService = new UserService(bookingService);
         }
         return userService;
     }
@@ -141,6 +149,11 @@ public class UserService {
 //    }
 
     // new booking:
+
+    // date format:
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    // new booking:
     private static void newBooking() {
         int count = 1;
 
@@ -150,31 +163,123 @@ public class UserService {
 
         System.out.print("Choice one: ");
         int choice = 1;
-
         try {
-            choice = scanNum.nextInt() - 1;
+            choice = scanNum.nextInt() - 1; // Foydalanuvchi tomonidan tanlangan hotelni indeksi
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Invalid input.");
+            return;
         }
 
-        System.out.println("«" + Database.hotelList.get(choice).getName() + "» selected ✅");
+        if (choice < 0 || choice >= Database.getHotels().size()) {
+            System.out.println("Invalid choice.");
+            return;
+        }
 
-        System.out.print("Enter floor: ");
-        Integer floorInput = scanNum.nextInt();
+        Hotel selectedHotel = Database.getHotels().get(choice);
+        System.out.println("«" + selectedHotel.getName() + "» selected ✅");
 
-        System.out.print("Enter room: ");
-        Integer roomInput = scanNum.nextInt();
+        Date startDate = null;
+        Date endDate = null;
 
-        for (Room room : database.getRooms()) {
-            if (!room.isAvailable()) {
-
+        while (startDate == null) {
+            System.out.print("Start date (dd-MM-yyyy): ");
+            String startDateStr = scanStr.nextLine();
+            startDate = parseDate(startDateStr);
+            if (startDate == null) {
+                System.out.println("Invalid date format. Please try again.");
             }
         }
 
-        System.out.println("Enter the start date: ");
-        // 07-07-2024
-        System.out.println("Enter the end date: ");
-        // 10-07-2024
+        while (endDate == null) {
+            System.out.print("End date (dd-MM-yyyy): ");
+            String endDateStr = scanStr.nextLine();
+            endDate = parseDate(endDateStr);
+            if (endDate == null) {
+                System.out.println("Invalid date format. Please try again.");
+            } else if (!endDate.after(startDate)) {
+                System.out.println("End date must be after start date. Please try again.");
+                endDate = null;
+            }
+        }
+
+        Integer floor = null;
+        Integer roomNumber = null;
+
+        // Kiritilgan floor va room ni so'ramiz
+        while (floor == null || roomNumber == null) {
+            System.out.print("Enter floor: ");
+            try {
+                floor = scanNum.nextInt();
+                if (floor < 1 || floor > selectedHotel.getRooms().getFloor()) {
+                    System.out.println("Invalid floor. This hotel has floors from 1 to " + selectedHotel.getRooms().getFloor() + ". Please try again.");
+                    floor = null;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanStr.nextLine(); // Skaner qarobga chiqarish
+            }
+
+            if (floor != null) {
+                System.out.print("Enter room: ");
+                try {
+                    roomNumber = scanNum.nextInt();
+                    if (roomNumber < 1 || roomNumber > selectedHotel.getRooms().getNumber()) {
+                        System.out.println("Invalid room number. This hotel has rooms from 1 to " + selectedHotel.getRooms().getNumber() + " on each floor. Please try again.");
+                        roomNumber = null;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    scanStr.nextLine(); // Skaner qarobga chiqarish
+                }
+            }
+        }
+
+        // Kiritilgan startDate va endDate dan foydalanib, xonani tanlash vaqtini olib boramiz
+        boolean roomAvailable = false;
+        Room availableRoom = null;
+        Date tempEndDate = new Date(endDate.getTime()); // endDate ni saqlab qolinadi
+
+        // Xonani band qilishni urinamiz
+        while (!roomAvailable && !startDate.after(tempEndDate)) {
+            Room room = selectedHotel.getRooms().get(roomNumber - 1);
+
+            room.setNumber(selectedHotel.getRooms().getNumber());
+            room.setFloor(selectedHotel.getRooms().getFloor());
+
+            if (room.getFloor() == floor && room.getNumber() == roomNumber) {
+                // Check if this room is available for the selected dates
+                boolean isRoomAvailable = bookingService.isRoomAvailable(startDate, tempEndDate, room);
+                if (isRoomAvailable) {
+                    roomAvailable = true;
+                    availableRoom = room;
+                    break;
+                } else {
+                    // If not available, move tempEndDate to the next day
+                    tempEndDate.setTime(tempEndDate.getTime() + (1000 * 60 * 60 * 24)); // Bir kunni qo'shib yuborish
+                }
+            }
+        }
+
+        if (roomAvailable) {
+            boolean success = bookingService.createBooking(startDate, tempEndDate, availableRoom);
+            if (success) {
+                System.out.println("Booking created successfully!");
+            } else {
+                System.out.println("Failed to create booking. The room is not available for the given dates.");
+            }
+        } else {
+            System.out.println("Failed to create booking. The room is not available for the given dates.");
+        }
+    }
+
+
+    // date parser:
+    private static Date parseDate(String dateStr) {
+        try {
+            return dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     // user's profile:
@@ -229,6 +334,7 @@ public class UserService {
 
         getCurrentUser().setBalance(getCurrentUser().getBalance() + amount);
 
+        database.saveUsersToJson();
         System.out.println("Balance filled!");
     }
 

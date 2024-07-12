@@ -3,13 +3,14 @@ package uz.app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.app.enums.RoomType;
+
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {
-    private Integer roomNumber;
-    private RoomType type;
-    private boolean available;
+    private final String id = UUID.randomUUID().toString();
+    private Integer floor;
+    private Integer number;
 }

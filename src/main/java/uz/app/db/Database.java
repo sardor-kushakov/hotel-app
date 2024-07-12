@@ -139,7 +139,7 @@ public class Database {
     }
 
     // all bookings:
-    public List<Booking> getBookings() {
+    public static List<Booking> getBookings() {
         Type type = new TypeToken<ArrayList<Booking>>() {
         }.getType();
         try {
@@ -151,7 +151,7 @@ public class Database {
     }
 
     // all histories:
-    public List<History> getHistories() {
+    public static List<History> getHistories() {
         Type type = new TypeToken<ArrayList<History>>() {
         }.getType();
         try {
@@ -163,7 +163,7 @@ public class Database {
     }
 
     // get rooms:
-    public ArrayList<Room> getRooms() {
+    public static ArrayList<Room> getRooms() {
         Type type = new TypeToken<ArrayList<Room>>() {
         }.getType();
         try {
